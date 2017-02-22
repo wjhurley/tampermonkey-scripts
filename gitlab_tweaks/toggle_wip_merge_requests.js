@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitLab -- Hide [WIP] MR's
 // @namespace    GLTweaks
-// @version      0.2
+// @version      0.3
 // @description  Add button in hide any [WIP] MR's from list
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues
@@ -28,7 +28,7 @@
         var newButton = document.createElement('BUTTON');
         newButton.className = 'btn btn-default';
         newButton.id = 'toggleWIPMerges';
-        newButton.innerHTML = 'Hide <strong>[WIP]</strong> Merges';
+        newButton.innerHTML = 'Hide [WIP] Merges';
         newButton.setAttribute('data-active', 'false');
         newButton.style.display = 'inline-block';
         newButton.addEventListener('click', function(e) {
@@ -39,7 +39,7 @@
                 }
                 mergeRequests[i].style.display = (e.target.getAttribute('data-active') === 'false') ? 'none' : 'block';
             }
-            e.target.innerHTML = (e.target.getAttribute('data-active') === 'false') ? 'Show <strong>[WIP]</strong> Merges' : 'Hide <strong>[WIP]</strong> Merges';
+            e.target.innerHTML = (e.target.getAttribute('data-active') === 'false') ? 'Show [WIP] Merges' : 'Hide [WIP] Merges';
             e.target.setAttribute('data-active', (e.target.getAttribute('data-active') === 'false') ? 'true' : 'false');
         }, true);
         linkBar.appendChild(newButton);
