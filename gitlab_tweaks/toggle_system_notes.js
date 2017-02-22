@@ -4,7 +4,7 @@
 // @version      0.7
 // @description  Add button in GitLab that removes li.system-note elements
 // @author       Jason Croft
-// @supportURL   https://github.com/jccrofty30/tampermonkey/issues
+// @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues
 // @match        https://<your domain here>/*/*/merge_requests/*
 // @grant        none
 // @run-at       document-end
