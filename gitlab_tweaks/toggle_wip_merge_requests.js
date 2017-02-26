@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitLab -- Hide [WIP] MR's
 // @namespace    GLTweaks
-// @version      0.3
+// @version      0.4
 // @description  Add button in hide any [WIP] MR's from list
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues
