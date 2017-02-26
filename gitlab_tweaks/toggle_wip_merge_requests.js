@@ -51,13 +51,5 @@
         return /^[\[]?WIP[\]:]?/.test(title.innerHTML);
     }
 
-    function toggleButton(show) {
-        var button = document.getElementById('toggleWIPMerges');
-        if (typeof button === 'undefined') {
-            return false;
-        }
-        button.style.display = (show) ? 'inline-block' : 'none';
-    }
-
     constructButton();
 })();
