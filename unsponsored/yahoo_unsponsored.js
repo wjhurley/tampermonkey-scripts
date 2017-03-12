@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Yahoo! Unsponsored
-// @namespace    Misc.
-// @version      0.1
+// @namespace    Unsponsored
+// @version      0.2
 // @description  Remove "Sponsored" Post on Yahoo! homepage
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues
