@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         GitLab -- [WIP] Image Lightbox
+// @name         GitLab -- Image Lightbox
 // @namespace    GLTweaks
-// @version      0.1-alpha
+// @version      0.1
 // @description  Default image click to lightbox
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues
@@ -9,11 +9,6 @@
 // @grant        none
 // @run-at       document-end
 // ==/UserScript==
-
-
-// ==Notes==
-// This script is currently a work in progress
-// ==/Notes==
 
 (function() {
     'use strict';
@@ -26,14 +21,10 @@
                 e.preventDefault();
                 e.stopPropagation();
 
-                var image = document.createElement('IMG');
-                image.id = 'lighboxImage';
+                var image = document.getElementById('lightboxImage');
                 image.src = curr.getAttribute('src');
-                image.style.height = '600px';
-                image.style.width = 'auto';
 
-                document.getElementById('lightboxContainer').innerHTML = '';
-                document.getElementById('lightboxContainer').appendChild(image);
+                createFullLink(image.src);
                 toggleLightbox();
             }, true);
         });
@@ -43,47 +34,76 @@
         var shader = document.createElement('DIV');
         shader.addEventListener('click', function() { toggleLightbox(); }, true);
         shader.id = 'lightboxShader';
-        shader.style.alignItems = 'center';
         shader.style.backgroundColor = '#000';
-        shader.style.display = 'none';
         shader.style.height = '100%';
-        shader.style.justifyContent = 'center';
         shader.style.left = '0';
         shader.style.opacity = '0.8';
-        shader.style.position = 'fixed';
+        shader.style.position = 'absolute';
         shader.style.top = '0';
         shader.style.width = '100%';
-        shader.style.zIndex = '9999';
+        shader.style.zIndex = '9997';
 
-        document.body.appendChild(shader);
+        document.getElementById('lightboxContainer').appendChild(shader);
     }
 
     function createContainer() {
         var container = document.createElement('DIV');
         container.id = 'lightboxContainer';
-        container.style.height = '600px';
-        container.style.opacity = '1';
+        container.style.alignItems = 'center';
+        container.style.display = 'none';
+        container.style.height = '100%';
+        container.style.justifyContent = 'center';
+        container.style.left = '0';
+        container.style.position = 'fixed';
+        container.style.top = '0';
         container.style.padding = '0';
+        container.style.width = '100%';
+        container.style.zIndex = '9996';
 
-        document.getElementById('lightboxShader').appendChild(container);
+        document.body.appendChild(container);
     }
 
     function createFullLink(url) {
-        var button = document.createElement('BUTTON');
-        button.addEventListener('click', function() {
-            window.open(url);
-        }, true);
-        button.innerHTML = 'View Full';
+        var exists = document.getElementById('lightboxFullImage') !== null;
 
-        document.getElementById('lightboxContainer').appendChild(button);
+        var button = (!exists) ? document.createElement('BUTTON') : document.getElementById('lightboxFullImage');
+        button.setAttribute('data-url', url);
+
+        if (!exists) {
+            button.addEventListener('click', function(e) {
+                openFull(e.target.getAttribute('data-url'));
+            }, true);
+            button.className = 'btn btn-default';
+            button.id = 'lightboxFullImage';
+            button.innerHTML = 'View Full';
+            button.style.marginLeft = '1.5em';
+            button.style.zIndex = '9998';
+
+            document.getElementById('lightboxContainer').appendChild(button);
+        }
+    }
+
+    function createImage() {
+        var img = document.createElement('IMG');
+        img.id = 'lightboxImage';
+        img.style.height = 'auto';
+        img.style.width = '1200px';
+        img.style.zIndex = '9998';
+
+        document.getElementById('lightboxContainer').appendChild(img);
+    }
+
+    function openFull(url) {
+        window.open(url);
     }
 
     function toggleLightbox() {
-        var shader = document.getElementById('lightboxShader');
-        shader.style.display = (shader.style.display === 'none') ? 'flex' : 'none';
+        var container= document.getElementById('lightboxContainer');
+        container.style.display = (container.style.display === 'none') ? 'flex' : 'none';
     }
 
-    createBackdrop();
     createContainer();
+    createBackdrop();
+    createImage();
     attachEvents();
 })();
