@@ -87,7 +87,7 @@
         var img = document.createElement('IMG');
         img.id = 'lightboxImage';
         img.style.height = 'auto';
-        img.style.width = '1200px';
+        img.style.width = '85%';
         img.style.zIndex = '9998';
 
         document.getElementById('lightboxContainer').appendChild(img);
