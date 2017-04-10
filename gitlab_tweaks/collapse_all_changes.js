@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         GitLab -- Collapse All Changes
 // @namespace    GLTweaks
-// @version      0.1
+// @version      0.2
 // @description  Add button to collapse all changes
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues
-// @match        https://<your domain here>/*/*/merge_requests*
+// @match        https://<your domain here>/*/*/merge_requests/*
 // @grant        none
 // @run-at       document-end
 // ==/UserScript==
