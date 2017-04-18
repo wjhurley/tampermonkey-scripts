@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitLab -- Image Lightbox
 // @namespace    GLTweaks
-// @version      0.1
+// @version      0.2
 // @description  Default image click to lightbox
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues
@@ -28,6 +28,18 @@
                 toggleLightbox();
             }, true);
         });
+    }
+
+    function checkSize() {
+        var img = document.getElementById('lightboxImage');
+        if (img.clientHeight > window.innerHeight * 0.85) {
+            img.style.height = '85%';
+            img.style.width = 'auto';
+        }
+        else if (img.clientHeight > window.innerWidth * 0.85) {
+            img.style.height = 'auto';
+            img.style.width = '85%';
+        }
     }
 
     function createBackdrop() {
@@ -100,6 +112,7 @@
     function toggleLightbox() {
         var container= document.getElementById('lightboxContainer');
         container.style.display = (container.style.display === 'none') ? 'flex' : 'none';
+        checkSize();
     }
 
     createContainer();
