@@ -11,6 +11,10 @@
 // @run-at       document-end
 // ==/UserScript==
 
+// ==KnownIssues==
+// Doensn't Work in Firefox 53
+// ==/KnownIssues==
+
 (function() {
     function scrollTo(element, to, duration) {
         if (duration <= 0) return;
