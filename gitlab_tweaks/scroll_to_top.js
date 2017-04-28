@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         GitLab -- Scroll-To-Top
 // @namespace    GLTweaks
-// @version      0.1
+// @version      0.2
 // @description  Add button to instantly scroll to top of page
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues
 // @match        https://<your domain here>/*
+// @exclude      https://<your domain here>/users/sign_in
 // @grant        none
 // @run-at       document-end
 // ==/UserScript==
