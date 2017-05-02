@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitLab -- Scroll-To-Top
 // @namespace    GLTweaks
-// @version      0.2
+// @version      0.3
 // @description  Add button to instantly scroll to top of page
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues
@@ -50,6 +50,7 @@
         button.style.right =           '1em';
         button.style.bottom =          '1em';
         button.style.width =           '75px';
+        button.style.zIndex =          '2';
 
         button.addEventListener('click', function () {
             scrollTo(document.body, 0, 750);
