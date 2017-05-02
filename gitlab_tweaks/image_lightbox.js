@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitLab -- Image Lightbox
 // @namespace    GLTweaks
-// @version      0.2
+// @version      0.3
 // @description  Default image click to lightbox
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues
@@ -14,7 +14,7 @@
     'use strict';
 
     function attachEvents() {
-        var images = document.querySelectorAll("div.image-container img");
+        var images = document.querySelectorAll("a.no-attachment-icon img");
 
         images.forEach(function(curr) {
             curr.addEventListener('click', function(e) {
