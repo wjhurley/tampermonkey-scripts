@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitLab -- Hide [WIP] MR's
 // @namespace    GLTweaks
-// @version      0.5
+// @version      0.6
 // @description  Add button in hide any [WIP] MR's from list
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues
@@ -31,6 +31,7 @@
         newButton.innerHTML = 'Hide [WIP] Merges';
         newButton.setAttribute('data-active', 'false');
         newButton.style.display = 'inline-block';
+        newButton.style.margin = '1em 0';
         newButton.addEventListener('click', function(e) {
             var mergeRequests = Array.prototype.slice.call(document.querySelectorAll('ul.mr-list > li.merge-request'));
             for (var i = 0; i < mergeRequests.length; i++) {
