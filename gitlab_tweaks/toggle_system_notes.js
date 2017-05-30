@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitLab -- Toggle System Notes
 // @namespace    GLTweaks
-// @version      0.7
+// @version      0.8
 // @description  Add button in GitLab that removes li.system-note elements
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues
@@ -35,6 +35,7 @@
         toggleSystemNotes.innerHTML = 'Hide System Notes';
         toggleSystemNotes.setAttribute('data-active', 'false');
         toggleSystemNotes.style.display = (activeTab && activeTab.getAttribute('data-action') === 'notes') ? 'inline-block' : 'none';
+        toggleSystemNotes.style.margin = '1em 0.5em';
         toggleSystemNotes.addEventListener('click', function(e) {
             var systemNotes = Array.prototype.slice.call(document.querySelectorAll('ul.main-notes-list > li.system-note'));
             for (var i = 0; i < systemNotes.length; i++) {
