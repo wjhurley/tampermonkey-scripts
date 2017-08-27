@@ -50,7 +50,7 @@
         button.style.right =           '1em';
         button.style.bottom =          '1em';
         button.style.width =           '75px';
-        button.style.zIndex =          '20';
+        button.style.zIndex =          '200';
 
         button.addEventListener('click', function () {
             scrollTo(document.body, 0, 750);
