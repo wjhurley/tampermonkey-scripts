@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitLab -- Toggle System Notes
 // @namespace    GLTweaks
-// @version      0.8
+// @version      0.9
 // @description  Add button in GitLab that removes li.system-note elements
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues
@@ -22,7 +22,7 @@
     'use strict';
 
     function constructButton() {
-        var activeTab = getActiveTab();
+        var notesActive = getNotesTab();
         var tabsBar = document.querySelector('ul.merge-request-tabs');
 
         if (!tabsBar) {
@@ -34,8 +34,8 @@
         toggleSystemNotes.id = 'toggleSystemNotes';
         toggleSystemNotes.innerHTML = 'Hide System Notes';
         toggleSystemNotes.setAttribute('data-active', 'false');
-        toggleSystemNotes.style.display = (activeTab && activeTab.getAttribute('data-action') === 'notes') ? 'inline-block' : 'none';
-        toggleSystemNotes.style.margin = '1em 0.5em';
+        toggleSystemNotes.style.display = notesActive ? '' : 'none';
+        toggleSystemNotes.style.margin = '0.5em 0.5em';
         toggleSystemNotes.addEventListener('click', function(e) {
             var systemNotes = Array.prototype.slice.call(document.querySelectorAll('ul.main-notes-list > li.system-note'));
             for (var i = 0; i < systemNotes.length; i++) {
@@ -47,8 +47,10 @@
         tabsBar.appendChild(toggleSystemNotes);
     }
 
-    function getActiveTab() {
-        return document.querySelector('li.notes-tab.active > a');
+    function getNotesTab() {
+        var tab = document.querySelector('li.notes-tab');
+
+        return tab !== null && typeof tab !== 'undefined';
     }
 
     function toggleButton(show) {
@@ -69,7 +71,7 @@
         var tabs = Array.prototype.slice.call(document.querySelectorAll("a[data-toggle='tab']"));
         for (var i = 0; i < tabs.length; i++) {
             tabs[i].addEventListener('click', function(e) {
-                toggleButton(e.target.getAttribute('data-action') === 'notes');
+                toggleButton(e.target.getAttribute('data-target') === 'div#notes');
             }, true);
         }
     }, true);
