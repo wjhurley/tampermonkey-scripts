@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitLab -- Toggle System Notes
 // @namespace    GLTweaks
-// @version      0.10
+// @version      0.9
 // @description  Add button in GitLab that removes li.system-note elements
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues
