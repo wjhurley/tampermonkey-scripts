@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitLab -- Toggle System Notes
 // @namespace    GLTweaks
-// @version      0.9
+// @version      0.10
 // @description  Add button in GitLab that removes li.system-note elements
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues
@@ -37,9 +37,16 @@
         toggleSystemNotes.style.display = notesActive ? '' : 'none';
         toggleSystemNotes.style.margin = '0.5em 0.5em';
         toggleSystemNotes.addEventListener('click', function(e) {
-            var systemNotes = Array.prototype.slice.call(document.querySelectorAll('ul.main-notes-list > li.system-note'));
-            for (var i = 0; i < systemNotes.length; i++) {
-                systemNotes[i].style.display = (e.target.getAttribute('data-active') === 'false') ? 'none' : 'block';
+            if (typeof $ === 'undefined' || $ === null) {
+                var systemNotes = Array.prototype.slice.call(document.querySelectorAll('ul.main-notes-list > li.system-note'));
+                for (var i = 0; i < systemNotes.length; i++) {
+                    systemNotes[ i ].style.display = (e.target.getAttribute('data-active') === 'false') ? 'none' : 'block';
+                }
+            }
+            else {
+                $('ul.main-notes-list > li.system-note').each(function(ix, elem) {
+                    $(elem).toggle('hidden');
+                });
             }
             e.target.innerHTML = (e.target.getAttribute('data-active') === 'false') ? 'Show System Notes' : 'Hide System Notes';
             e.target.setAttribute('data-active', (e.target.getAttribute('data-active') === 'false') ? 'true' : 'false');
