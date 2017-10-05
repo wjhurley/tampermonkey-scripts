@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitLab -- Show Datetime
 // @namespace    GLTweaks
-// @version      0.1
+// @version      0.2
 // @description  Convert all the "X <units> ago" to the corresponding datetime
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey/issues
@@ -13,7 +13,27 @@
 (function() {
     'use strict';
 
-    const times =  Array.prototype.slice.call(document.querySelectorAll('time'));
+    function convertTimes() {
+        window.convertingTime = 1;
 
-    times.forEach((curr) => curr.innerHTML = curr.dataset.originalTitle );
+        const times =  Array.prototype.slice.call(document.querySelectorAll('time'));
+        times.forEach((curr) => {
+            if (curr.dataset.timeConverted === '1') {
+                return;
+            }
+
+            curr.innerHTML = curr.dataset.originalTitle;
+            curr.dataset.timeConverted = '1';
+        });
+
+        window.convertingTime = 0;
+    }
+
+    document.querySelector('body').addEventListener('DOMSubtreeModified', function() {
+        if (window.convertingTime === 1) {
+            return;
+        }
+
+        convertTimes();
+    });
 })();
