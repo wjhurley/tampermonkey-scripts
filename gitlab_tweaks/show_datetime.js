@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitLab -- Show Datetime
 // @namespace    GLTweaks
-// @version      0.2
+// @version      0.3
 // @description  Convert all the "X <units> ago" to the corresponding datetime
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey/issues
