@@ -22,7 +22,9 @@
                 return;
             }
 
+            const newTitle = curr.innerHTML;
             curr.innerHTML = curr.dataset.originalTitle;
+            curr.dataset.originalTitle = newTitle;
             curr.dataset.timeConverted = '1';
         });
 
