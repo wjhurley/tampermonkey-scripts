@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitLab -- Image Lightbox
 // @namespace    GLTweaks
-// @version      0.3
+// @version      0.4
 // @description  Default image click to lightbox
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues
@@ -14,20 +14,25 @@
     'use strict';
 
     function attachEvents() {
-        var images = document.querySelectorAll("a.no-attachment-icon img");
+        document.addEventListener('click', function(e) {
+            var target = e.target;
 
-        images.forEach(function(curr) {
-            curr.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
+            if (
+                target.tagName.toLowerCase() !== 'img'
+                || isException(target)
+            ) {
+                return;
+            }
 
-                var image = document.getElementById('lightboxImage');
-                image.src = curr.getAttribute('src');
+            e.preventDefault();
+            e.stopPropagation();
 
-                createFullLink(image.src);
-                toggleLightbox();
-            }, true);
-        });
+            var image = document.getElementById('lightboxImage');
+            image.src = target.getAttribute('src');
+
+            createFullLink(image.src);
+            toggleLightbox();
+        }, true);
     }
 
     function checkSize() {
@@ -103,6 +108,10 @@
         img.style.zIndex = '9998';
 
         document.getElementById('lightboxContainer').appendChild(img);
+    }
+
+    function isException(target) {
+        return /avatar/.test(target.className) || target.parentElement.id === 'logo';
     }
 
     function openFull(url) {
