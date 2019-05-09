@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitLab -- Image Lightbox
 // @namespace    GLTweaks
-// @version      0.4
+// @version      2019.5.9
 // @description  Default image click to lightbox
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues

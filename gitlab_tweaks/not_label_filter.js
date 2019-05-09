@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitLab -- Not Label Filter
 // @namespace    GLTweaks
-// @version      0.1
+// @version      2019.5.9
 // @description  Filter specific labels out of Board / Issue List
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues
