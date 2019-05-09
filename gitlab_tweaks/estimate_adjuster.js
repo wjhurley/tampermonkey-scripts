@@ -5,8 +5,8 @@
 // @description  Add slash-command to edit estimates
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues
-// @match        https://<your domain here>*issues/*
-// @match        https://<your domain here>*merge_requests/*
+// @match        https://<your domain here>/*/issues/*
+// @match        https://<your domain here>/*/merge_requests/*
 // @grant        none
 // @run-at       document-end
 // ==/UserScript==
