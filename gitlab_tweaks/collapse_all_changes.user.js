@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitLab -- Collapse All Changes
 // @namespace    GLTweaks
-// @version      0.2
+// @version      2019.5.9
 // @description  Add button to collapse all changes
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues
