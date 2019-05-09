@@ -1,13 +1,14 @@
 // ==UserScript==
 // @name         GitLab -- Not Label Filter
 // @namespace    GLTweaks
-// @version      2019.5.9
+// @version      2019.5.9-1
 // @description  Filter specific labels out of Board / Issue List
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues
 // @match        https://<your domain here>/*/issues/*
 // @match        https://<your domain here>/*/boards/*
-// @grant        none
+// @grant        GM_getValue
+// @grant        GM_setValue
 // @run-at       document-end
 // ==/UserScript==
 
@@ -18,9 +19,35 @@
 (function() {
     var isIssue = /issues/.test(window.location);
 
-    var labelsToFilter = [
-        // List of labels to filter
-    ];
+    var addConfigButton = function addConfigButton() {
+        if (document.getElementById('labelConfig') !== null) {
+            return;
+        }
+
+        var navBarSelector = 'ul.nav.navbar-nav';
+
+        var navBarNav = document.querySelector(navBarSelector);
+        if (navBarNav === null) {
+            console.warn('Can not locate ' + navBarSelector);
+            return;
+        }
+
+        var li = document.createElement('li');
+        li.className = 'header';
+        li.id = 'labelConfig';
+        li.title = 'Labels To Filter';
+
+        var button = document.createElement('button');
+        button.className = 'btn btn-default';
+        button.innerText = 'Configure Label Filter';
+
+        button.addEventListener('click', function() {
+            configureLabels();
+        });
+
+        li.appendChild(button);
+        navBarNav.insertBefore(li, navBarNav.children[0]);
+    };
 
     var addIssueButton = function addIssueButton() {
         var issueNavSelector = 'div.nav-controls.issues-nav-controls';
@@ -37,13 +64,17 @@
         button.id = 'labelToggle';
         button.innerText = 'Toggle Filtered Labels';
         button.name = 'button';
-        button.title = labelsToFilter.join("\r\n");
+        button.title = getLabelsToFilter().join("\r\n");
 
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function(e) {
             toggleIssueList(button);
         });
 
         issueNavControls.insertBefore(button, issueNavControls.children[0]);
+    };
+
+    var configureLabels = function configureLabels() {
+        GM_setValue('labelsToFilter', prompt('Enter labels to be filtered separated by a comma:', getLabelsToFilter()));
     };
 
     /**
@@ -66,6 +97,10 @@
         }
 
         labelSpan.innerText = newCount.toString();
+    };
+
+    var getLabelsToFilter = function getLabelsToFilter() {
+        return (GM_getValue('labelsToFilter', '') === null ? '' : GM_getValue('labelsToFilter', '')).split(',');
     };
 
     var initFilterIssueList = function filterIssueList() {
@@ -91,6 +126,7 @@
         boards.forEach(function(board) {
             var counter = board.querySelector('.issue-count-badge');
             var issues = Array.prototype.slice.call(board.querySelectorAll('li'));
+            var labelsToFilter = getLabelsToFilter();
 
             issues.forEach(function(issue) {
                 var labels = Array.prototype.slice.call(issue.querySelectorAll('.board-card-labels > button'));
@@ -129,6 +165,7 @@
 
         var display = !isActive ? '' : 'none';
         var issues = Array.prototype.slice.call(document.querySelectorAll('li.issue'));
+        var labelsToFilter = getLabelsToFilter();
 
         issues.forEach(function(issue) {
             var labels = Array.prototype.slice.call(issue.querySelectorAll('a.label-link'));
@@ -145,6 +182,8 @@
     };
 
     document.querySelector('html').addEventListener('DOMSubtreeModified', function() {
+        addConfigButton();
+
         if (isIssue) {
             initFilterIssueList();
             return;
