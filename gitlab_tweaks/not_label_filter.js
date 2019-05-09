@@ -5,8 +5,8 @@
 // @description  Filter specific labels out of Board / Issue List
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues
-// @match        https://<your domain here>*issues/*
-// @match        https://<your domain here>*boards/*
+// @match        https://<your domain here>*/issues/*
+// @match        https://<your domain here>*/boards/*
 // @grant        none
 // @run-at       document-end
 // ==/UserScript==
@@ -37,8 +37,9 @@
         button.id = 'labelToggle';
         button.innerText = 'Toggle Filtered Labels';
         button.name = 'button';
+        button.title = labelsToFilter.join("\r\n");
 
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', function() {
             toggleIssueList(button);
         });
 
