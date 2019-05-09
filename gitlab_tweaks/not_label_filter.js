@@ -22,6 +22,29 @@
         // List of labels to filter
     ];
 
+    var addIssueButton = function addIssueButton() {
+        var issueNavSelector = 'div.nav-controls.issues-nav-controls';
+
+        var issueNavControls = document.querySelector(issueNavSelector);
+        if (issueNavControls === null) {
+            console.warn('Can not locate ' + issueNavSelector);
+            return;
+        }
+
+        var button = document.createElement('button');
+        button.className = 'btn btn-default append-right-10 js-bulk-update-toggle';
+        button.dataset.active = '0';
+        button.id = 'labelToggle';
+        button.innerText = 'Toggle Filtered Labels';
+        button.name = 'button';
+
+        button.addEventListener('click', function(e) {
+            toggleIssueList(button);
+        });
+
+        issueNavControls.insertBefore(button, issueNavControls.children[0]);
+    };
+
     /**
      * @param counter {Element}
      */
@@ -42,6 +65,14 @@
         }
 
         labelSpan.innerText = newCount.toString();
+    };
+
+    var initFilterIssueList = function filterIssueList() {
+        if (document.getElementById('labelToggle') !== null) {
+            return;
+        }
+
+        addIssueButton();
     };
 
     var filterBoards = function filterBoards() {
@@ -71,13 +102,50 @@
         });
     };
 
-    var filterIssueList = function filterIssueList() {
-        // TODO
+    /**
+     * @param button {HTMLButtonElement}
+     * @param isActive {Boolean}
+     */
+    var toggleIssueButton = function toggleIssueButton(button, isActive) {
+        button.dataset.active = (isActive ? 1 : 0).toString();
+
+        if (isActive) {
+            button.classList.remove('btn-default');
+            button.classList.add('btn-success');
+        }
+        else {
+            button.classList.remove('btn-success');
+            button.classList.add('btn-default');
+        }
+    };
+
+    /**
+     * @param button {HTMLButtonElement}
+     */
+    var toggleIssueList = function toggleIssueList(button) {
+        var isActive = Number(button.dataset.active) === 0;
+        toggleIssueButton(button, isActive);
+
+        var display = !isActive ? '' : 'none';
+        var issues = Array.prototype.slice.call(document.querySelectorAll('li.issue'));
+
+        issues.forEach(function(issue) {
+            var labels = Array.prototype.slice.call(issue.querySelectorAll('a.label-link'));
+
+            if (labels.length === 0) {
+                return;
+            }
+
+
+            if (labels.some(function(label) { return labelsToFilter.indexOf(label.innerText) > -1; })) {
+                issue.style.display = display;
+            }
+        });
     };
 
     document.querySelector('html').addEventListener('DOMSubtreeModified', function() {
         if (isIssue) {
-            filterIssueList();
+            initFilterIssueList();
             return;
         }
 
