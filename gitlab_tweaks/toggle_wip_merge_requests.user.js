@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         GitLab -- Hide [WIP] MR's
 // @namespace    GLTweaks
-// @version      2019.5.9
+// @version      2019.7.8
 // @description  Add button in hide any [WIP] MR's from list
 // @author       Jason Croft
-// @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues
+// @supportURL   https://github.com/jccrofty30/tampermonkey/issues
 // @match        https://<your domain here>/*/*/merge_requests
 // @match        https://<your domain here>/*/*/merge_requests?*
 // @grant        none
@@ -19,9 +19,9 @@
     'use strict';
 
     function constructButton() {
-        var linkBar = document.querySelector('ul.nav-links.issues-state-filters');
+        var linkBar = document.querySelector('.nav-controls');
 
-        if (!linkBar) {
+        if (linkBar === null) {
             return false;
         }
 
@@ -30,20 +30,26 @@
         newButton.id = 'toggleWIPMerges';
         newButton.innerHTML = 'Hide [WIP] Merges';
         newButton.setAttribute('data-active', 'false');
-        newButton.style.display = 'inline-block';
-        newButton.style.margin = '1em 0';
         newButton.addEventListener('click', function(e) {
+            var isActive = e.target.getAttribute('data-active') !== 'false';
             var mergeRequests = Array.prototype.slice.call(document.querySelectorAll('ul.mr-list > li.merge-request'));
+            var target = e.target;
             for (var i = 0; i < mergeRequests.length; i++) {
                 if (!isWIP(mergeRequests[i])) {
                     continue;
                 }
-                mergeRequests[i].style.display = (e.target.getAttribute('data-active') === 'false') ? 'none' : 'flex';
+                mergeRequests[i].style.display = !isActive ? 'none' : 'flex';
             }
-            e.target.innerHTML = (e.target.getAttribute('data-active') === 'false') ? 'Show [WIP] Merges' : 'Hide [WIP] Merges';
-            e.target.setAttribute('data-active', (e.target.getAttribute('data-active') === 'false') ? 'true' : 'false');
+
+            target.classList.toggle('btn-default');
+            target.classList.toggle('btn-success');
+            target.innerHTML = [
+                !isActive ? 'Show' : 'Hide',
+                '[WIP] Merges',
+            ].join(' ');
+            target.setAttribute('data-active', !isActive ? 'true' : 'false');
         }, true);
-        linkBar.appendChild(newButton);
+        linkBar.insertBefore(newButton, linkBar.children[0]);
     }
 
     function isWIP(item) {
