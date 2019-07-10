@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         osTicket -- Image Lightbox
 // @namespace    osTicketTweaks
-// @version      2019.6.25
+// @version      2019.7.10
 // @description  Default image click to lightbox
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues
 // @match        https://<your domain>/tickets.php*
-// @match        https://<your domain>/scp/tickets.php*
+// @match        https://<your domain>/scp*
 // @grant        none
 // @run-at       document-end
 // ==/UserScript==
@@ -57,7 +57,7 @@
             img.style.height = '85%';
             img.style.width = 'auto';
         }
-        else if (img.clientHeight > window.innerWidth * 0.85) {
+        else if (img.clientWidth > window.innerWidth * 0.85) {
             img.style.height = 'auto';
             img.style.width = '85%';
         }
@@ -120,7 +120,9 @@
         var img = document.createElement('IMG');
         img.id = 'lightboxImage';
         img.style.height = 'auto';
-        img.style.width = '85%';
+        img.style.maxHeight = '85%';
+        img.style.maxWidth = '85%';
+        img.style.width = 'auto';
         img.style.zIndex = '9998';
 
         document.getElementById('lightboxContainer').appendChild(img);
@@ -136,9 +138,10 @@
         checkSize();
     }
 
-    createContainer();
-    createBackdrop();
-    createImage();
-    attachEvents();
+    window.addEventListener('load', function() {
+        createContainer();
+        createBackdrop();
+        createImage();
+        attachEvents();
+    }, false);
 })();
-
