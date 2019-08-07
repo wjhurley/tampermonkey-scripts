@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         osTicket -- Image Lightbox
 // @namespace    osTicketTweaks
-// @version      2019.7.10
+// @version      2019.8.7
 // @description  Default image click to lightbox
 // @author       Jason Croft
 // @supportURL   https://github.com/jccrofty30/tampermonkey-scripts/issues
@@ -35,7 +35,7 @@
 
             if (
                 tagName === 'a'
-                && !target.classList.contains('filename')
+                && !/\/file\.php/.test(target.getAttribute('href'))
             ) {
                 return;
             }
